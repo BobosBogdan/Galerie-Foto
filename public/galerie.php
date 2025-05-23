@@ -33,7 +33,7 @@ $este_proprietar = isset($_SESSION['user_id']) && $_SESSION['user_id'] === $gale
 // Tratăm cererile POST (formular)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // ✏️ Editare titlu și descriere (doar de către proprietar)
+    //  Editare titlu și descriere (doar de către proprietar)
     if (
         isset($_POST['actiune']) && $_POST['actiune'] === 'editeaza' &&
         isset($_POST['titlu_nou'], $_POST['descriere_noua']) &&
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // 📷 Adăugare imagine (doar de către proprietar)
+    //  Adăugare imagine (doar de către proprietar)
     if (isset($_FILES['imagine'])) {
         if ($este_proprietar) {
             $nume = basename($_FILES['imagine']['name']);
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // 🗑️ Ștergere imagine (doar de către proprietar)
+    //  Ștergere imagine (doar de către proprietar)
     if (isset($_POST['sterge_imagine']) && $este_proprietar) {
         $img_id = $_POST['sterge_imagine'];
         Gallery::stergeImagine($img_id);
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // 💬 Adăugare comentariu (doar pentru utilizatori logați)
+    //  Adăugare comentariu (doar pentru utilizatori logați)
     if (isset($_POST['comentariu'], $_SESSION['user_id'])) {
         $comentariu = trim($_POST['comentariu']);
         $nume = $_SESSION['username'];
@@ -99,7 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    // 🗑️ Ștergere comentariu propriu (verificare după nume)
+    //  Ștergere comentariu propriu (verificare după nume)
     if (
         isset($_POST['actiune']) && $_POST['actiune'] === 'sterge_comentariu' &&
         isset($_POST['comentariu_id'], $_SESSION['username'])
@@ -115,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// 📰 Obținem toate comentariile pentru această galerie
+//  Obținem toate comentariile pentru această galerie
 if ($id) {
     $stmt = DB::connect()->prepare("SELECT * FROM comentarii WHERE galerie_id = ?");
     $stmt->execute([$id]);
