@@ -29,7 +29,7 @@ if (!$blog) {
 // Verificăm dacă utilizatorul logat este autorul blogului
 $este_autor = isset($_SESSION['user_id']) && $_SESSION['user_id'] === $blog['user_id'];
 
-// ✏️ Dacă autorul vrea să editeze blogul
+//  Dacă autorul vrea să editeze blogul
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' &&
     isset($_POST['actiune']) && $_POST['actiune'] === 'editeaza' &&
@@ -47,7 +47,7 @@ if (
     exit;
 }
 
-// 💬 Dacă un utilizator logat trimite un comentariu
+//  Dacă un utilizator logat trimite un comentariu
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comentariu'], $_SESSION['username'])) {
     $nume = $_SESSION['username'];
     $comentariu = trim($_POST['comentariu']);
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['comentariu'], $_SESSI
     exit;
 }
 
-// 🗑️ Ștergere comentariu (doar dacă este al userului logat)
+//  Ștergere comentariu (doar dacă este al userului logat)
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' &&
     isset($_POST['actiune']) && $_POST['actiune'] === 'sterge_comentariu' &&
