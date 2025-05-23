@@ -1,0 +1,75 @@
+{% extends "layout.twig" %} 
+{# Extinde layout-ul de bază al site-ului #}
+
+{% block content %}
+<h1>{{ blog.titlu }}</h1>
+{# Afișează titlul blogului #}
+
+<p class="text-muted">
+    Publicat pe {{ blog.created_at|date("d.m.Y H:i") }} de <strong>{{ blog.username }}</strong>
+</p>
+{# Afișează data și autorul blogului #}
+
+<p>{{ blog.continut }}</p>
+{# Afișează conținutul blogului #}
+
+{% if este_autor %}
+    {# Dacă utilizatorul logat este autorul blogului, apare formularul de editare #}
+    <hr>
+    <h4>Editează blogul:</h4>
+    <form method="post" class="mb-4">
+        <input type="hidden" name="actiune" value="editeaza">
+        {# Input ascuns pentru a marca acțiunea ca fiind „editeaza” #}
+
+        <div class="mb-3">
+            <label class="form-label">Titlu nou</label>
+            <input type="text" name="titlu_nou" class="form-control" value="{{ blog.titlu }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Conținut nou</label>
+            <textarea name="continut_nou" class="form-control" rows="5" required>{{ blog.continut }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-warning">Salvează modificările</button>
+    </form>
+{% endif %}
+
+<hr>
+<h4>Comentarii</h4>
+{# Secțiunea de comentarii #}
+
+{% if session.username %}
+  {# Dacă utilizatorul este logat, poate adăuga comentariu #}
+  <form method="post" class="mb-4">
+    <div class="mb-3">
+      <label for="comentariu" class="form-label">Adaugă un comentariu:</label>
+      <textarea name="comentariu" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Trimite</button>
+  </form>
+{% else %}
+  {# Dacă nu e logat, este încurajat să se autentifice #}
+  <div class="alert alert-info">
+    <a href="{{ base }}/login.php">Autentifică-te</a> pentru a comenta.
+  </div>
+{% endif %}
+
+{# Iterează prin lista de comentarii #}
+{% for c in comentarii %}
+  <div class="border p-2 mb-2">
+    <strong>{{ c.nume }}</strong>
+    <small class="text-muted">({{ c.created_at|date("d.m.Y H:i") }})</small>
+    <p class="mb-0">{{ c.continut }}</p>
+
+    {% if session.username == c.nume %}
+      {# Dacă utilizatorul logat a scris comentariul, apare butonul de ștergere #}
+      <form method="post" style="display:inline;">
+        <input type="hidden" name="actiune" value="sterge_comentariu">
+        <input type="hidden" name="comentariu_id" value="{{ c.id }}">
+        <button type="submit" class="btn btn-sm btn-danger">Șterge</button>
+      </form>
+    {% endif %}
+  </div>
+{% endfor %}
+{% endblock %}

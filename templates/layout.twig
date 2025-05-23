@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Galerie Foto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    {# Se include Bootstrap 5 din CDN pentru stilizarea interfeței #}
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ base }}/index.php">Galerie Foto</a>
+    {# Logo/link către pagina principală #}
+
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {# Meniul de navigare principal #}
+        <li class="nav-item"><a class="nav-link" href="{{ base }}/galerii.php">Toate Galeriile</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ base }}/bloguri.php">Toate Blogurile</a></li>
+
+        {% if session.user_id %}
+          {# Dacă utilizatorul este autentificat, se afișează opțiunea de logout și un mesaj de salut #}
+          <li class="nav-item"><a class="nav-link" href="{{ base }}/logout.php">Logout</a></li>
+          <li class="nav-item"><span class="nav-link disabled">Salut, {{ session.username }}!</span></li>
+        {% else %}
+          {# Dacă nu este autentificat, se afișează opțiunea de login #}
+          <li class="nav-item"><a class="nav-link" href="{{ base }}/login.php">Login</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+    {% block content %}{% endblock %}
+    {# Conținutul specific fiecărei pagini va fi inserat aici de către fișierele care extind acest layout #}
+</div>
+
+</body>
+</html>

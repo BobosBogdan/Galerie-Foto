@@ -1,0 +1,39 @@
+{% extends "layout.twig" %}
+{# Extinde șablonul de bază care conține structura generală și bara de navigare #}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Înregistrare</h2>
+    {# Titlul principal al paginii de înregistrare #}
+
+    {% if eroare %}
+        <div class="alert alert-danger">{{ eroare }}</div>
+        {# Afișează un mesaj de eroare dacă există, ex: parolele nu coincid #}
+    {% endif %}
+
+    <form method="post">
+        {# Formularul de înregistrare. Trimite datele prin metoda POST către același fișier #}
+
+        <div class="mb-3">
+            <label class="form-label">Utilizator</label>
+            <input type="text" name="username" class="form-control" required>
+            {# Câmp pentru numele de utilizator #}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Parolă</label>
+            <input type="password" name="parola" class="form-control" required>
+            {# Câmp pentru introducerea parolei #}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Confirmare parolă</label>
+            <input type="password" name="confirmare" class="form-control" required>
+            {# Câmp pentru confirmarea parolei introduse anterior #}
+        </div>
+
+        <button type="submit" class="btn btn-success">Creează cont</button>
+        {# Buton de trimitere formular pentru înregistrare #}
+    </form>
+</div>
+{% endblock %}

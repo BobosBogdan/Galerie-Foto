@@ -1,0 +1,24 @@
+{% extends "layout.twig" %}
+{# Moștenește layoutul principal care conține structura de bază a paginii (ex. navbar, head, footer) #}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1 class="display-4">Bun venit la Galeria Foto!</h1>
+    {# Afișează titlul principal al paginii, centrat și stilizat mare #}
+
+    <p class="lead">Vizualizează sau creează galerii foto personale.</p>
+    {# Subtitlu clar care explică scopul site-ului #}
+
+    <hr class="my-4">
+    {# Linie orizontală pentru separare vizuală #}
+
+    <p>Pentru a începe, navighează la secțiunea de galerii sau autentifică-te pentru a crea propriile galerii.</p>
+    {# Text informativ care ghidează utilizatorul ce poate face în continuare #}
+
+    <a href="{{ base }}/galerii.php" class="btn btn-primary btn-lg">Vezi galerii</a>
+    {# Buton mare care duce la pagina cu galerii foto #}
+
+    <a href="{{ base }}/bloguri.php" class="btn btn-secondary btn-lg">Vezi blog-uri</a>
+    {# Buton mare care duce la pagina cu articole de tip blog #}
+</div>
+{% endblock %}

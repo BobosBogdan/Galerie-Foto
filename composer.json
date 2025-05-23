@@ -1,0 +1,20 @@
+{
+    "name": "vladb/galerie-foto",
+    "description": "galerie foto",
+    "type": "project",
+    "require": {
+        "twig/twig": "^3.21"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Vladb\\GalerieFoto\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "bobos bogdan"
+        }
+    ],
+    "minimum-stability": "stable"
+}

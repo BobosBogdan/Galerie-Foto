@@ -1,0 +1,122 @@
+{% extends 'layout.twig' %} {# Extinde șablonul principal layout.twig #}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Panou de administrare</h1>
+    
+    {# Navigare între taburi: Utilizatori și Galerii #}
+    <ul class="nav nav-tabs" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button">Utilizatori</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="galleries-tab" data-bs-toggle="tab" data-bs-target="#galleries" type="button">Galerii</button>
+        </li>
+    </ul>
+    
+    <div class="tab-content" id="adminTabsContent">
+        {# Tabul pentru administrarea utilizatorilor #}
+        <div class="tab-pane fade show active" id="users" role="tabpanel">
+            <h2 class="mt-4">Utilizatori</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nume</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Data înregistrare</th>
+                        <th>Acțiuni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# Afișează fiecare utilizator în tabel #}
+                    {% for user in utilizatori %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.nume }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.rol }}</td>
+                        <td>{{ user.data_inregistrare|date("d.m.Y H:i") }}</td>
+                        <td>
+                            <a href="/admin/user/{{ user.id }}/edit" class="btn btn-sm btn-warning">Editează</a>
+                            <a href="/admin/user/{{ user.id }}/delete" class="btn btn-sm btn-danger" onclick="return confirm('Sigur doriți să ștergeți acest utilizator?')">Șterge</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            {# Formular pentru adăugarea unui nou utilizator #}
+            <h3 class="mt-4">Adaugă utilizator nou</h3>
+            <form action="/admin/user/create" method="post" class="mb-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="nume">Nume</label>
+                            <input type="text" id="nume" name="nume" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="parola">Parolă</label>
+                            <input type="password" id="parola" name="parola" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="rol">Rol</label>
+                            <select id="rol" name="rol" class="form-control">
+                                <option value="user">Utilizator normal</option>
+                                <option value="admin">Administrator</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-8 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary">Adaugă utilizator</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        {# Tabul pentru administrarea galeriilor #}
+        <div class="tab-pane fade" id="galleries" role="tabpanel">
+            <h2 class="mt-4">Galerii</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titlu</th>
+                        <th>Proprietar</th>
+                        <th>Data creare</th>
+                        <th>Acțiuni</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {# Afișează fiecare galerie în tabel #}
+                    {% for galerie in galerii %}
+                    <tr>
+                        <td>{{ galerie.id }}</td>
+                        <td>{{ galerie.titlu }}</td>
+                        <td>{{ galerie.nume_utilizator }}</td>
+                        <td>{{ galerie.data_creare|date("d.m.Y H:i") }}</td>
+                        <td>
+                            <a href="/galerie/{{ galerie.id }}" class="btn btn-sm btn-primary">Vezi</a>
+                            <a href="/admin/gallery/{{ galerie.id }}/delete" class="btn btn-sm btn-danger" onclick="return confirm('Sigur doriți să ștergeți această galerie?')">Șterge</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

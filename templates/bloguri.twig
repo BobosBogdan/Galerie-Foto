@@ -1,0 +1,42 @@
+{% extends "layout.twig" %}
+{# Extinde șablonul de bază (layout.twig) #}
+
+{% block content %}
+<h1>Lista articole blog</h1>
+{# Afișează titlul paginii #}
+
+{% if session.user_id %}
+  {# Dacă utilizatorul este logat, afișează formularul de creare blog #}
+  <form method="post" action="{{ base }}/adauga_blog.php" class="row g-2 mb-4">
+    <div class="col-md-4">
+      <input type="text" name="titlu" class="form-control" placeholder="Titlu blog" required>
+    </div>
+    <div class="col-md-6">
+      <input type="text" name="continut" class="form-control" placeholder="Conținut blog (scurt rezumat)" required>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-success w-100">Creează blog</button>
+    </div>
+  </form>
+{% endif %}
+
+{# Iterează prin lista de bloguri și le afișează #}
+{% for blog in bloguri %}
+  <div class="border-bottom py-2">
+    <a href="{{ base }}/blog.php?id={{ blog.id }}" class="fw-bold">{{ blog.titlu }}</a><br>
+    <small class="text-muted">
+      Postat pe {{ blog.created_at|date("d.m.Y H:i") }} de {{ blog.username }}
+    </small>
+
+    {% if session.username == blog.username %}
+      {# Dacă utilizatorul logat este autorul blogului, afișează butonul de ștergere #}
+      <form method="post" class="d-inline float-end">
+        <input type="hidden" name="actiune" value="sterge">
+        <input type="hidden" name="blog_id" value="{{ blog.id }}">
+        <button type="submit" class="btn btn-danger btn-sm">Șterge</button>
+      </form>
+    {% endif %}
+  </div>
+{% endfor %}
+
+{% endblock %}

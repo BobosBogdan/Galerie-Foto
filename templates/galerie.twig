@@ -1,0 +1,108 @@
+{% extends "layout.twig" %}
+{# Extinde șablonul de bază #}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h2>{{ galerie.titlu }}</h2>
+    {# Afișează titlul galeriei #}
+
+    <p class="text-muted">Postat pe {{ galerie.created_at|date("d.m.Y H:i") }}</p>
+    {# Afișează data creării galeriei formatată #}
+
+    <p>{{ galerie.descriere }}</p>
+    {# Afișează descrierea galeriei #}
+
+    {% if eroare %}
+        <div class="alert alert-danger">{{ eroare }}</div>
+        {# Afișează mesaj de eroare, dacă există #}
+    {% endif %}
+
+    {% if este_proprietar %}
+    <hr>
+    <h4>Editează galeria:</h4>
+    <form method="post" class="mb-4">
+        <input type="hidden" name="actiune" value="editeaza">
+        {# Form pentru modificarea titlului și descrierii galeriei #}
+
+        <div class="mb-3">
+            <label class="form-label">Titlu nou</label>
+            <input type="text" name="titlu_nou" class="form-control" value="{{ galerie.titlu }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Descriere nouă</label>
+            <textarea name="descriere_noua" class="form-control" rows="5" required>{{ galerie.descriere }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-warning">Salvează modificările</button>
+    </form>
+    {% endif %}
+
+    <hr>
+    <h4>Comentarii ({{ comentarii|length }})</h4>
+    {# Afișează titlul secțiunii de comentarii și numărul acestora #}
+
+    {% if session.user_id %}
+        <form method="post" class="mb-3">
+            <div class="mb-3">
+                <textarea name="comentariu" class="form-control" placeholder="Scrie un comentariu..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Adaugă comentariu</button>
+        </form>
+        {# Formular pentru adăugarea unui comentariu dacă utilizatorul e logat #}
+    {% else %}
+        <div class="alert alert-info">
+            <a href="{{ base }}/login.php">Autentifică-te</a> pentru a lăsa un comentariu.
+        </div>
+    {% endif %}
+
+    {# Iterare prin comentarii și afișare #}
+    {% for comentariu in comentarii %}
+        <div class="border rounded p-2 mb-2">
+            <strong>{{ comentariu.nume }}</strong><br>
+            {{ comentariu.continut }}
+
+            {% if session.username == comentariu.nume %}
+            {# Dacă utilizatorul este autorul comentariului, poate să-l șteargă #}
+            <form method="post" style="display:inline;">
+                <input type="hidden" name="actiune" value="sterge_comentariu">
+                <input type="hidden" name="comentariu_id" value="{{ comentariu.id }}">
+                <button type="submit" class="btn btn-sm btn-danger mt-2">Șterge</button>
+            </form>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <hr>
+    <h4>Imagini:</h4>
+
+    {% if este_proprietar %}
+        <form method="post" enctype="multipart/form-data" class="mb-3">
+            <div class="mb-2">
+                <label for="imagine">Selectează imagine:</label>
+                <input type="file" name="imagine" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Adaugă imagine</button>
+        </form>
+        {# Formular de upload imagine, vizibil doar pentru autorul galeriei #}
+    {% endif %}
+
+    <div class="row">
+        {% for imagine in imagini %}
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="{{ imagine.cale }}" class="card-img-top" alt="Imagine">
+                    {% if este_proprietar %}
+                        <form method="post">
+                            <input type="hidden" name="sterge_imagine" value="{{ imagine.id }}">
+                            <button type="submit" class="btn btn-danger btn-sm m-2">Șterge</button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

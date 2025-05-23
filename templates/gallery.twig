@@ -1,0 +1,94 @@
+{% extends 'layout.twig' %}
+{# Extinde șablonul principal layout.twig, care conține structura paginii (navbar, head etc.) #}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">{{ galerie.titlu }}</h1>
+    {# Afișează titlul galeriei ca heading principal #}
+</div>
+
+<p class="lead">{{ galerie.descriere }}</p>
+{# Afișează descrierea galeriei #}
+
+<p class="text-muted">Creată de: {{ galerie.nume_utilizator }} pe {{ galerie.data_creare|date("d.m.Y H:i") }}</p>
+{# Informații despre autorul galeriei și data creării #}
+
+{% if auth.check() and (auth.user().id == galerie.id_utilizator or auth.isAdmin()) %}
+    <div class="mb-3">
+        <a href="/galerie/{{ galerie.id }}/edit" class="btn btn-warning">Editează</a>
+        <a href="/galerie/{{ galerie.id }}/delete" class="btn btn-danger" onclick="return confirm('Sigur doriți să ștergeți această galerie?')">Șterge</a>
+    </div>
+{% endif %}
+{# Butoane de editare și ștergere disponibile doar pentru autor sau admin #}
+
+<hr>
+
+<h3>Imagini</h3>
+<div class="row">
+    {% if imagini|length > 0 %}
+        {% for imagine in imagini %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="/uploads/{{ imagine.nume_fisier }}" class="card-img-top" alt="{{ imagine.descriere }}">
+                <div class="card-body">
+                    <p class="card-text">{{ imagine.descriere }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">Nu există imagini încărcate în această galerie.</div>
+        </div>
+    {% endif %}
+</div>
+{# Listează toate imaginile din galerie sau un mesaj dacă nu există #}
+
+{% if auth.check() and auth.user().id == galerie.id_utilizator %}
+    <div class="mb-4">
+        <h4>Încarcă imagini</h4>
+        <form action="/galerie/{{ galerie.id }}/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="file" name="imagini[]" multiple class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Încarcă</button>
+        </form>
+    </div>
+{% endif %}
+{# Form pentru încărcarea de imagini, vizibil doar pentru autorul galeriei #}
+
+<hr>
+
+<h3>Comentarii</h3>
+{% if comentarii|length > 0 %}
+    {% for comentariu in comentarii %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">{{ comentariu.nume_utilizator }}</h5>
+            <p class="card-text">{{ comentariu.continut }}</p>
+            <p class="text-muted small">{{ comentariu.data_creare|date("d.m.Y H:i") }}</p>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="alert alert-info">Nu există comentarii pentru această galerie.</div>
+{% endif %}
+{# Listează comentariile dacă există, altfel afișează un mesaj #}
+
+{% if auth.check() %}
+    <div class="mt-4">
+        <h4>Adaugă un comentariu</h4>
+        <form action="/galerie/{{ galerie.id }}/comentariu" method="post">
+            <div class="form-group">
+                <textarea name="continut" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Trimite</button>
+        </form>
+    </div>
+{% else %}
+    <div class="alert alert-warning">Trebuie să fii autentificat pentru a lăsa un comentariu.</div>
+{% endif %}
+{# Form pentru adăugarea comentariului, disponibil doar dacă userul este autentificat #}
+
+</div>
+{% endblock %}

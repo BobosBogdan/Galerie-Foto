@@ -1,0 +1,56 @@
+/* Adaugă spațiu sus pentru a face loc pentru navbar fix */
+body {
+    padding-top: 56px;
+}
+
+/* Stil general pentru secțiunea tip jumbotron (de obicei titlu + descriere generală) */
+.jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #e9ecef;
+    border-radius: .3rem;
+}
+
+/* Imagine din galerie cu margine jos și efect la hover */
+.gallery-image {
+    margin-bottom: 1rem;
+    transition: transform 0.3s;
+}
+
+/* Efect de mărire la trecerea mouse-ului peste imagine */
+.gallery-image:hover {
+    transform: scale(1.02);
+}
+
+/* Stil pentru comentarii: bară colorată în stânga și spațiu */
+.comment-box {
+    border-left: 3px solid #007bff;
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+/* Zonă de upload cu chenar punctat și stil vizual atractiv */
+.upload-area {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+/* Culoare chenar modificată la hover */
+.upload-area:hover {
+    border-color: #007bff;
+}
+
+/* Spațiu suplimentar sub taburile din panoul admin */
+#adminTabs {
+    margin-bottom: 20px;
+}
+
+/* Stil pentru responsive: la ecrane mici, coloanele devin 1 pe rând */
+@media (max-width: 768px) {
+    .card-columns {
+        column-count: 1;
+    }
+}

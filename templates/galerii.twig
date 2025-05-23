@@ -1,0 +1,62 @@
+{% extends "layout.twig" %}
+{# Extinde șablonul de bază layout.twig, care include navbar și structură comună #}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Galerii</h2>
+    {# Afișează titlul paginii #}
+
+    {% if session.user_id %}
+    <form method="post" class="mb-4">
+        <input type="hidden" name="actiune" value="creeaza">
+        {# Formular de creare galerie, disponibil doar pentru utilizatori logați #}
+
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" name="titlu" class="form-control" placeholder="Titlul galeriei" required>
+            </div>
+            <div class="col-md-6">
+                <input type="text" name="descriere" class="form-control" placeholder="Descriere" required>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success w-100">Creează galerie</button>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+
+    <div class="row">
+        {# Iterează prin toate galeriile și le afișează #}
+        {% for galerie in galerii %}
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5>{{ galerie.titlu }}</h5>
+                        {# Afișează titlul galeriei #}
+
+                        <p>{{ galerie.descriere }}</p>
+                        {# Afișează descrierea galeriei #}
+
+                        <p class="text-muted small">Creată de: <strong>{{ galerie.username }}</strong></p>
+                        {# Afișează numele utilizatorului care a creat galeria #}
+
+                        <div class="d-flex gap-2">
+                            <a href="{{ base }}/galerie.php?id={{ galerie.id }}" class="btn btn-primary btn-sm">Deschide</a>
+                            {# Buton de accesare galerie #}
+
+                            {% if session.username == galerie.username %}
+                            <form method="post" style="display:inline;">
+                                <input type="hidden" name="actiune" value="sterge">
+                                <input type="hidden" name="galerie_id" value="{{ galerie.id }}">
+                                <button type="submit" class="btn btn-danger btn-sm">Șterge</button>
+                            </form>
+                            {# Butonul de ștergere este vizibil doar pentru utilizatorul care a creat galeria #}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
