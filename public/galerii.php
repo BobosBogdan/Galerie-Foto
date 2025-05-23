@@ -10,13 +10,13 @@ require_once __DIR__ . '/../src/DB.php';
 // Definim baza URL relativă pentru a o trimite spre sabloanele Twig
 $base = '/galerie-foto/public';
 
-// 📨 Dacă se face o cerere POST, înseamnă că se trimite un formular
+//  Dacă se face o cerere POST, înseamnă că se trimite un formular
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Verificăm dacă s-a trimis un câmp 'actiune'
     if (isset($_POST['actiune'])) {
         $actiune = $_POST['actiune'];
 
-        // 🔧 Dacă se trimite un formular de creare galerie
+        //  Dacă se trimite un formular de creare galerie
         if (
             $actiune === 'creeaza' &&
             isset($_POST['titlu'], $_POST['descriere'], $_SESSION['user_id'])
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        // 🗑️ Dacă se trimite un formular de ștergere galerie
+        //  Dacă se trimite un formular de ștergere galerie
         if (
             $actiune === 'sterge' &&
             isset($_POST['galerie_id'], $_SESSION['user_id'])
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// 📥 Cerere GET: încărcăm toate galeriile din baza de date
+//  Cerere GET: încărcăm toate galeriile din baza de date
 $galerii = Gallery::toateGaleriile();
 
 // Inițializăm Twig pentru a încărca sablonul de afișare
