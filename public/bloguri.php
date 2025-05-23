@@ -11,7 +11,7 @@ require_once __DIR__ . '/../src/DB.php';
 // Ne conectăm la baza de date
 $pdo = DB::connect();
 
-// 🗑️ Ștergere blog (doar dacă utilizatorul este autorul)
+// 🗑 Ștergere blog (doar dacă utilizatorul este autorul)
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' &&
     isset($_POST['actiune']) &&
