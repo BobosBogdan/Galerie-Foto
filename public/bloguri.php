@@ -11,7 +11,7 @@ require_once __DIR__ . '/../src/DB.php';
 // Ne conectăm la baza de date
 $pdo = DB::connect();
 
-// 🗑 Ștergere blog (doar dacă utilizatorul este autorul)
+//  Ștergere blog (doar dacă utilizatorul este autorul)
 if (
     $_SERVER['REQUEST_METHOD'] === 'POST' &&
     isset($_POST['actiune']) &&
@@ -31,7 +31,7 @@ if (
     }
 }
 
-// 📋 Preluăm toate blogurile împreună cu username-ul autorului
+//  Preluăm toate blogurile împreună cu username-ul autorului
 $stmt = $pdo->query("
     SELECT b.*, u.username 
     FROM bloguri b 
@@ -40,7 +40,7 @@ $stmt = $pdo->query("
 ");
 $bloguri = $stmt->fetchAll();
 
-// 🔧 Inițializăm sistemul Twig (sabloane)
+//  Inițializăm sistemul Twig (sabloane)
 $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates');
 $twig = new \Twig\Environment($loader);
 
