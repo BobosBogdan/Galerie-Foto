@@ -17,7 +17,7 @@ $base = '/galerie-foto/public';
 // Inițializăm o variabilă pentru afișarea mesajului de eroare
 $eroare = null;
 
-// ✅ Dacă formularul a fost trimis (cerere POST)
+//  Dacă formularul a fost trimis (cerere POST)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Preluăm datele introduse de utilizator
     $username = $_POST['username'] ?? '';
